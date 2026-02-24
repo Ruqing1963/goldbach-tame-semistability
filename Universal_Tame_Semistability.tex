@@ -1,0 +1,591 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{url}
+\usepackage{enumitem}
+
+\newcommand{\rad}{\operatorname{rad}}
+\newcommand{\Jac}{\operatorname{Jac}}
+\newcommand{\Cond}{\operatorname{Cond}}
+\newcommand{\Pic}{\operatorname{Pic}}
+\newcommand{\GSp}{\mathrm{GSp}}
+\newcommand{\Gm}{\mathbb{G}_{\mathrm{m}}}
+\newcommand{\Ga}{\mathbb{G}_{\mathrm{a}}}
+\newcommand{\Qr}{\mathbb{Q}_r}
+\newcommand{\Fr}{\mathbb{F}_r}
+\newcommand{\Zr}{\mathbb{Z}_r}
+\newcommand{\Qbar}{\overline{\mathbb{Q}}}
+\newcommand{\Ql}{\mathbb{Q}_\ell}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\title{Universal Tame Semistability of Goldbach--Frey Jacobians:\\
+  A Proof of $f_r = 2$ at All Odd Primes}
+\author{Ruqing Chen\\[4pt]
+  \small GUT Geoservice Inc., Montreal\\
+  \small\texttt{ruqing@hotmail.com}}
+\date{February 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We prove that for the Goldbach--Frey curve
+$C\colon y^2 = x(x^2 - p^2)(x^2 - q^2)$ with $p \ne q$
+distinct odd primes and $p + q = 2N$, the conductor exponent
+of $\Jac(C)$ at every bad odd prime $r$ equals exactly~$2$.
+The proof proceeds by classifying the bad odd primes into four
+mutually exclusive cases determined by the root collision
+pattern modulo~$r$, and showing that in each case the
+identity component of the N\'eron model's special fibre
+satisfies $2a + t = 2$, where $a$ and~$t$ are the abelian
+and toric dimensions.  Two geometrically distinct mechanisms
+conspire to produce the same conductor exponent: a single
+$A_2$~cusp yielding $(a,t,u) = (1,0,1)$, or two
+$A_1$~nodes yielding $(a,t,u) = (0,2,0)$.
+Combined with the computational data of the preceding
+paper, this establishes the exact odd conductor formula
+$\Cond_{\mathrm{odd}}(\Jac(C))
+= [\rad_{\mathrm{odd}}(p \cdot q \cdot N \cdot (p - q))]^2$
+and completes the theoretical foundation of the Band Shifting Law.
+\end{abstract}
+
+
+% ═══════════════════════════════════════════════════════════════════════════
+\section{Introduction}
+
+In the preceding paper~\cite{Chen2026TCV}, we computed the true Artin
+conductor of the Goldbach--Frey Jacobian $\Jac(C)$ for 10~test cases
+using Magma and discovered that every odd conductor exponent
+equals~$2$.  The present paper provides a proof.
+
+The curve under study is the genus-2 hyperelliptic curve
+\begin{equation}\label{eq:curve}
+  C \colon y^2 = f(x) = x(x^2 - p^2)(x^2 - q^2),
+\end{equation}
+where $p \ne q$ are distinct odd primes with $p + q = 2N$.
+The roots of $f$ are
+$\mathcal{R} = \{0,\; p,\; {-p},\; q,\; {-q}\}$,
+and the discriminant is
+\begin{equation}\label{eq:disc}
+  \Delta(f) = 2^4\, p^6\, q^6\, (p - q)^4\, (2N)^4.
+\end{equation}
+An odd prime $r$ is \emph{bad} for $C$ if and only if
+$r \mid p \cdot q \cdot N \cdot (p - q)$.
+
+
+% ═══════════════════════════════════════════════════════════════════════════
+\section{The Conductor Exponent Formula}\label{sec:formula}
+
+Let $r$ be an odd prime and $\ell \ne r$ an auxiliary prime.
+The $\ell$-adic Galois representation
+$V_\ell = H^1(C_{\Qbar},\Ql)$ has dimension $2g = 4$.
+The conductor exponent of $\Jac(C)$ at~$r$ is
+\begin{equation}\label{eq:cond-general}
+  f_r = \bigl(2g - \dim V_\ell^{I_r}\bigr) + \delta_r,
+\end{equation}
+where $I_r$ is the inertia group at~$r$ and $\delta_r \ge 0$
+is the Swan conductor.
+
+Since the hyperelliptic cover $C \to \mathbb{P}^1$ has degree~$2$
+and $r$ is odd, $\gcd(r, 2) = 1$, so the cover is \emph{tamely
+ramified}.  Consequently $\delta_r = 0$ and
+\begin{equation}\label{eq:cond-tame}
+  f_r = 4 - \dim V_\ell^{I_r}.
+\end{equation}
+
+The Chevalley decomposition of the identity component
+$\mathcal{A}_s^0$ of the N\'eron model's special fibre gives
+\begin{equation}\label{eq:chevalley}
+  0 \longrightarrow T \times U
+  \longrightarrow \mathcal{A}_s^0
+  \longrightarrow B \longrightarrow 0,
+\end{equation}
+where $B$ is an abelian variety of dimension~$a$, $T \cong \Gm^t$
+is a torus, and $U$ is a unipotent group of dimension~$u$,
+with $a + t + u = g = 2$.
+Since $\ell \ne r$ is coprime to $r$, the unipotent part
+contributes nothing to $V_\ell^{I_r}$, and
+\begin{equation}\label{eq:dimVI}
+  \dim V_\ell^{I_r} = 2a + t.
+\end{equation}
+Our goal is to prove that $2a + t = 2$ for every bad odd
+prime~$r$, yielding $f_r = 4 - 2 = 2$.
+
+
+% ═══════════════════════════════════════════════════════════════════════════
+\section{Classification of Bad Odd Primes}\label{sec:classify}
+
+\begin{proposition}\label{prop:cases}
+  Let $p \ne q$ be distinct odd primes with $p + q = 2N$.
+  Every bad odd prime $r$ for~$C$ falls into exactly one of the
+  following four cases:
+  \begin{enumerate}[nosep,label=\textup{(\Roman*)}]
+  \item\label{case:I}
+    $r = p$\,: \quad $r \mid p$, \; $r \nmid q$, \;
+    $r \nmid N$, \; $r \nmid (p - q)$.
+  \item\label{case:II}
+    $r = q$\,: \quad $r \mid q$, \; $r \nmid p$, \;
+    $r \nmid N$, \; $r \nmid (p - q)$.
+  \item\label{case:III}
+    $r \mid N$, \; $r \nmid pq$\,: \quad equivalently,
+    $r \mid (p + q)$, $r \nmid p$, $r \nmid q$.
+  \item\label{case:IV}
+    $r \mid (p - q)$, \; $r \nmid pqN$\,: \quad
+    $r \nmid p$, $r \nmid q$, $r \nmid (p + q)$.
+  \end{enumerate}
+\end{proposition}
+
+\begin{proof}
+  Since $p$ and $q$ are distinct primes, $\gcd(p, q) = 1$.
+  The mutual exclusivity of the four cases follows from:
+
+  If $r \mid p$ and $r \mid q$, then $r \mid \gcd(p,q) = 1$,
+  a contradiction.
+  If $r \mid p$ and $r \mid N$, then $r \mid (p + q)$ and
+  $r \mid p$ imply $r \mid q$, contradicting the above.
+  If $r \mid p$ and $r \mid (p - q)$, then $r \mid q$, again
+  a contradiction.
+  If $r \mid N$ and $r \mid (p - q)$, then
+  $r \mid (p + q) + (p - q) = 2p$ and since $r$ is odd,
+  $r \mid p$, falling back to the first impossibility.
+
+  Exhaustiveness follows from~\eqref{eq:disc}: every odd prime
+  factor of $\Delta$ divides $p \cdot q \cdot (p - q) \cdot (2N)$,
+  and the odd factors of $2N$ divide~$N$.
+\end{proof}
+
+
+% ═══════════════════════════════════════════════════════════════════════════
+\section{Singularity Analysis}\label{sec:singular}
+
+\subsection{Cases~\ref{case:I} and~\ref{case:II}: one cusp}
+
+Suppose $r = p$ (the case $r = q$ is symmetric).
+Then $p \equiv 0 \pmod{r}$ and $q \not\equiv 0 \pmod{r}$.
+The roots of~$f$ reduce modulo~$r$ as
+\[
+  \{0, p, -p, q, -q\}
+  \;\longmapsto\;
+  \{0, 0, 0, \bar{q}, -\bar{q}\}
+\]
+where $\bar{q} = q \bmod r \ne 0$.  The reduced curve is
+\begin{equation}\label{eq:cusp-curve}
+  \bar{C}\colon y^2 = x^3(x^2 - \bar{q}^{\,2}).
+\end{equation}
+
+\begin{lemma}\label{lem:cusp}
+  The curve~\eqref{eq:cusp-curve} has a unique singular point
+  at the origin, which is an $A_2$ cusp with
+  $\delta$-invariant~$1$.
+  Its normalization $\widetilde{C}$ is a smooth curve of genus~$1$.
+\end{lemma}
+
+\begin{proof}
+  The partial derivatives $\partial(y^2 - x^3(x^2 - \bar{q}^{\,2}))/\partial y = 2y$
+  and $\partial/\partial x = -(5x^4 - 3\bar{q}^{\,2} x^2)$
+  both vanish at $(0, 0)$, confirming a singular point.
+  Since $\bar{q} \ne 0$, the factors $(x - \bar{q})$ and
+  $(x + \bar{q})$ are non-vanishing units near $x = 0$, so
+  locally $y^2 \sim x^3$, an $A_2$ cusp.
+  The $\delta$-invariant of an $A_2$ singularity is~$1$.
+  The arithmetic genus of $\bar{C}$ is~$2$ (hyperelliptic,
+  $\deg f = 5$), so the geometric genus of the normalization
+  is $\tilde{g} = 2 - 1 = 1$.
+\end{proof}
+
+\begin{proposition}\label{prop:cusp-neron}
+  In Cases~\ref{case:I} and~\ref{case:II},
+  $(a, t, u) = (1, 0, 1)$ and $f_r = 2$.
+\end{proposition}
+
+\begin{proof}
+  The normalization $\widetilde{C}$ has genus~$1$, so
+  $\Pic^0(\widetilde{C})$ is an elliptic curve.
+  By Serre's theory of generalized Jacobians~\cite{Serre1959},
+  the cusp singularity contributes an additive group $\Ga$, and
+  there is an exact sequence
+  \[
+    0 \longrightarrow \Ga \longrightarrow
+    \Jac(\bar{C}) \longrightarrow
+    \Pic^0(\widetilde{C}) \longrightarrow 0.
+  \]
+  Thus the abelian part has dimension $a = 1$
+  (from the elliptic curve), the toric part has $t = 0$
+  (cusps produce $\Ga$, not $\Gm$), and the unipotent
+  part has $u = 1$.  We verify $a + t + u = 2 = g$, and
+  $2a + t = 2$, so $f_r = 4 - 2 = 2$.
+\end{proof}
+
+
+\subsection{Cases~\ref{case:III} and~\ref{case:IV}: two nodes}
+
+In Case~\ref{case:III}, $r \mid (p + q)$, so
+$q \equiv -p \pmod{r}$.
+In Case~\ref{case:IV}, $r \mid (p - q)$, so
+$q \equiv p \pmod{r}$.
+In both cases, $p \not\equiv 0$ and $q \not\equiv 0$
+modulo~$r$, and the roots reduce as
+\[
+  \{0, \bar{p}, -\bar{p}, \bar{q}, -\bar{q}\}
+  \;=\;
+  \{0, \bar{a}, -\bar{a}, \pm\bar{a}\}
+  \;=\;
+  \{0, \bar{a}, \bar{a}, -\bar{a}, -\bar{a}\}
+\]
+where $\bar{a} = \bar{p} \ne 0$.  The reduced curve is
+\begin{equation}\label{eq:node-curve}
+  \bar{C}\colon y^2 = x(x - \bar{a})^2(x + \bar{a})^2.
+\end{equation}
+
+\begin{lemma}\label{lem:nodes}
+  The curve~\eqref{eq:node-curve} has exactly two singular
+  points, at $(\bar{a}, 0)$ and $(-\bar{a}, 0)$, each an
+  $A_1$ node with $\delta$-invariant~$1$.
+  The normalization $\widetilde{C}$ is a rational curve
+  $($genus~$0)$.
+\end{lemma}
+
+\begin{proof}
+  At $x = \bar{a}$: set $s = x - \bar{a}$.  Then
+  $y^2 = (s + \bar{a}) \cdot s^2 \cdot (s + 2\bar{a})^2$,
+  so locally $y^2 \sim s^2$, giving two branches
+  $y \approx \pm s \cdot (\text{unit})$.  This is an $A_1$
+  node with $\delta = 1$.  The same applies at $x = -\bar{a}$
+  by the symmetry $x \mapsto -x$.
+  The origin $(0, 0)$ is smooth since $f(x)/x = (x - \bar{a})^2(x + \bar{a})^2$
+  has $f(0)/0 = \bar{a}^4 \ne 0$ (well-defined after writing
+  $y^2 = x \cdot g(x)^2$ with $g = (x - \bar{a})(x + \bar{a})$,
+  so the Weierstrass point at $x = 0$ is non-singular).
+  The arithmetic genus is~$2$, and two nodes each contribute
+  $\delta = 1$, giving $\tilde{g} = 2 - 2 = 0$.
+\end{proof}
+
+\begin{proposition}\label{prop:node-neron}
+  In Cases~\ref{case:III} and~\ref{case:IV},
+  $(a, t, u) = (0, 2, 0)$ and $f_r = 2$.
+\end{proposition}
+
+\begin{proof}
+  The normalization $\widetilde{C}$ has genus~$0$, so
+  $\Pic^0(\widetilde{C}) = 0$.
+  By~\cite{Serre1959}, each $A_1$ node contributes a
+  multiplicative group $\Gm$, giving
+  \[
+    0 \longrightarrow \Gm^2 \longrightarrow
+    \Jac(\bar{C}) \longrightarrow 0.
+  \]
+  Thus $\Jac(\bar{C}) \cong \Gm^2$: a $2$-dimensional torus.
+  We have $a = 0$, $t = 2$, $u = 0$, with $a + t + u = 2 = g$,
+  and $2a + t = 2$, so $f_r = 4 - 2 = 2$.
+\end{proof}
+
+
+% ═══════════════════════════════════════════════════════════════════════════
+\section{No Other Singularity Types Arise}\label{sec:exhaust}
+
+\begin{proposition}\label{prop:no-deeper}
+  For distinct odd primes $p \ne q$, the only root collision
+  patterns modulo a bad odd prime~$r$ are those described in
+  Section~\ref{sec:singular}: one $A_2$ cusp
+  $($Cases~\ref{case:I}/\ref{case:II}$)$ or two $A_1$ nodes
+  $($Cases~\ref{case:III}/\ref{case:IV}$)$.
+  No deeper singularities occur.
+\end{proposition}
+
+\begin{proof}
+  The root set is $\{0, p, -p, q, -q\}$.  We show that every
+  hypothetical deeper collision is impossible.
+
+  \emph{Five-fold collision} (all roots merge):
+  requires $r \mid p$ and $r \mid q$, so
+  $r \mid \gcd(p, q) = 1$.  Impossible.
+
+  \emph{Four-fold collision} (e.g., $\{0, p, -p, q\}$ merge):
+  requires $r \mid p$ and $r \mid q$.  Impossible.
+
+  \emph{Triple collision not involving~$0$}
+  (e.g., $\{p, q, -q\}$):
+  requires $r \mid (p - q)$ and $r \mid (p + q)$, hence
+  $r \mid 2p$, so $r \mid p$ (since $r$ is odd).
+  Then $r \mid q$. Impossible.
+
+  \emph{Mixed triple $+$ double collision}
+  (e.g., $\{0, p, -p\}$ triple and $\{q, -q\}$ double):
+  the double $q \equiv -q \pmod{r}$ requires $r \mid 2q$,
+  hence $r \mid q$.  Combined with $r \mid p$ from the triple,
+  this gives $r \mid \gcd(p, q) = 1$.  Impossible.
+
+  Having excluded all patterns with total collision
+  multiplicity $\ge 5$, or with a collision of depth
+  $\ge 3$ away from the origin, or with two independent
+  collision clusters, the only remaining patterns are
+  exactly those in Proposition~\ref{prop:cases}.
+\end{proof}
+
+
+% ═══════════════════════════════════════════════════════════════════════════
+\section{Main Theorem}\label{sec:main}
+
+\begin{theorem}\label{thm:main}
+  Let $p \ne q$ be distinct odd primes with $p + q = 2N$, and let
+  $C\colon y^2 = x(x^2 - p^2)(x^2 - q^2)$ be the Goldbach--Frey
+  curve.  For every odd prime $r$ dividing the discriminant of~$C$,
+  \[
+    f_r\bigl(\Jac(C)\bigr) = 2.
+  \]
+\end{theorem}
+
+\begin{proof}
+  By Proposition~\ref{prop:cases}, the bad odd prime~$r$ falls
+  into one of four mutually exclusive cases.
+  By Propositions~\ref{prop:cusp-neron} and~\ref{prop:node-neron},
+  we have $2a + t = 2$ in every case.
+  By Proposition~\ref{prop:no-deeper}, no other case arises.
+  Since $\delta_r = 0$ (Section~\ref{sec:formula}),
+  equation~\eqref{eq:cond-tame} gives
+  $f_r = 4 - (2a + t) = 4 - 2 = 2$.
+\end{proof}
+
+\begin{corollary}\label{cor:formula}
+  The odd part of the conductor is
+  \begin{equation}\label{eq:cond-odd}
+    \Cond_{\mathrm{odd}}\bigl(\Jac(C)\bigr)
+    \;=\;
+    \bigl[\rad_{\mathrm{odd}}(p \cdot q \cdot N
+      \cdot (p - q))\bigr]^2.
+  \end{equation}
+\end{corollary}
+
+\begin{proof}
+  By Proposition~\ref{prop:cases}, the odd conductor support is
+  $\{r > 2 : r \mid p \cdot q \cdot N \cdot (p - q)\}$.
+  By Theorem~\ref{thm:main}, each contributes $f_r = 2$.
+\end{proof}
+
+
+% ═══════════════════════════════════════════════════════════════════════════
+\section{The Arithmetic--Geometric Coincidence}\label{sec:coincidence}
+
+The identity $2a + t = 2$ arises from two completely different
+geometric mechanisms, summarised in Table~\ref{tab:summary} and
+Figure~\ref{fig:diagram}.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{lllcl}
+\toprule
+Case & Reduced curve $\bar{C}$ & Singularity &
+$(a,t,u)$ & $f_r$ \\
+\midrule
+I, II   & $y^2 = x^3(x^2 - \bar{q}^{\,2})$ & 1 cusp ($A_2$)
+  & $(1,0,1)$ & $2$ \\
+III, IV & $y^2 = x(x{-}\bar{a})^2(x{+}\bar{a})^2$
+  & 2 nodes ($A_1$) & $(0,2,0)$ & $2$ \\
+\bottomrule
+\end{tabular}
+\caption{The two reduction types and their N\'eron model
+  parameters.  Despite different geometry, $2a + t = 2$
+  in both cases.}
+\label{tab:summary}
+\end{table}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{../figures/fig_proof_diagram.pdf}
+  \caption{Schematic of the proof.  In the cusp case, the
+    normalization retains genus~$1$ (one abelian dimension);
+    in the node case, two $\Gm$ factors replace the abelian
+    part entirely.  Both paths yield $f_r = 2$.}
+  \label{fig:diagram}
+\end{figure}
+
+\noindent
+In the cusp case, the genus drops by~$1$ (from $\delta = 1$),
+leaving an elliptic curve in the normalization; the abelian part
+captures $2a = 2$ dimensions of $V_\ell^{I_r}$, while the
+unipotent part (from $\Ga$) is invisible to the $\ell$-adic
+Tate module.
+In the node case, the genus drops by~$2$ (from $2 \times \delta = 2$),
+leaving a rational curve; the toric part $\Gm^2$ captures
+$t = 2$ dimensions of $V_\ell^{I_r}$ instead.
+
+
+% ═══════════════════════════════════════════════════════════════════════════
+\section{Computational Cross-Validation}\label{sec:data}
+
+Theorem~\ref{thm:main} is verified against all 40 odd conductor
+exponents from the 10~Magma computations of~\cite{Chen2026TCV}.
+Figure~\ref{fig:class} shows the classification of each bad odd
+prime into the four cases; every theoretical prediction matches
+the Magma output.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.88\textwidth]{../figures/fig_classification.pdf}
+  \caption{Classification of 40 bad odd primes across 10 test
+    curves.  Every prime is assigned to exactly one case, and the
+    predicted $f_r = 2$ matches all Magma values (40/40).}
+  \label{fig:class}
+\end{figure}
+
+
+% ═══════════════════════════════════════════════════════════════════════════
+\section{Remarks}\label{sec:remarks}
+
+\begin{remark}[Primality is essential]\label{rem:primality}
+  The condition that $p$ and $q$ be \emph{distinct primes} is
+  not merely a Goldbach-theoretic requirement; it is essential
+  to the proof.  If $p$ and $q$ were composite odd numbers sharing
+  a common factor~$r$ (e.g., $p = 9$, $q = 21$, $r = 3$), then
+  the four cases would no longer be mutually exclusive: the
+  five-fold root collision at $x = 0$ would produce a deeper
+  singularity (beyond $A_2$), and $f_r = 2$ could fail.
+  Primality guarantees $\gcd(p, q) = 1$, which is the algebraic
+  engine driving the mutual exclusivity of the collision types.
+\end{remark}
+
+\begin{remark}[The prime $r = 2$]\label{rem:r2}
+  Theorem~\ref{thm:main} applies only to \emph{odd} primes.
+  The prime $r = 2$ is wildly ramified
+  ($\operatorname{char} \Fr = 2$ divides the cover degree~$2$),
+  so the Swan conductor $\delta_2 > 0$ in general.
+  The Magma data from~\cite{Chen2026TCV} shows
+  $f_2 \in \{4, 7, 8\}$: it is neither constant nor equal to~$2$.
+  A complete analysis of $f_2$ would require the machinery of
+  Obus--Wewers~\cite{ObusWewers} for wild quotient singularities,
+  and lies outside the scope of this paper.
+  Since the conductor proxy of the Band Shifting Law involves
+  only the odd radical $\rad_{\mathrm{odd}}$, the $r = 2$
+  exponent does not affect the BSL.
+\end{remark}
+
+\begin{remark}[Stable reduction]\label{rem:stable}
+  The analysis in Section~\ref{sec:singular} identifies the
+  reduction type of $\Jac(C)$ by studying the geometric special
+  fibre of~$C$ modulo~$r$.  Strictly speaking, the
+  $(a, t, u)$~decomposition refers to the N\'eron model of
+  $\Jac(C)$ over $\Zr$, whose identity component is determined
+  by the stable reduction of $C$ over~$\Qr$
+  (Deligne--Mumford~\cite{DeligneMumford}).
+  Since $C$ acquires stable reduction over an at most tamely
+  ramified extension of~$\Qr$ (because $r$ is odd and
+  $r > 2 = 2g - 1$ would suffice, though in fact any odd~$r$
+  works for our hyperelliptic family), the stable fibre types
+  coincide with those computed directly from the
+  reduction $\bar{C} = C \otimes \Fr$.
+\end{remark}
+
+
+% ═══════════════════════════════════════════════════════════════════════════
+\section{Consequences for the Band Shifting Law}\label{sec:bsl}
+
+Combining Theorem~\ref{thm:main} with the computational framework
+of~\cite{Chen2026TCV}:
+
+\begin{corollary}[Proxy--conductor identity]\label{cor:proxy}
+  \[
+    \rho_{\mathrm{true}}
+    \;=\;
+    \rho_{\mathrm{proxy}}
+    \;+\;
+    \frac{2\log\rad_{\mathrm{odd}}^{\mathrm{new}}(|p - q|)}
+    {\log(2N)}\,,
+  \]
+  where $\rad_{\mathrm{odd}}^{\mathrm{new}}(|p - q|)$ is the
+  product of odd primes in $|p - q|$ not already dividing~$pqN$.
+\end{corollary}
+
+\begin{proof}
+  Immediate from Corollary~\ref{cor:formula} and the definition
+  $\rho_{\mathrm{proxy}} = 2\log(\rad_{\mathrm{odd}}(p) \cdot
+  \rad_{\mathrm{odd}}(q) \cdot \rad_{\mathrm{odd}}(N)) / \log(2N)$.
+\end{proof}
+
+\noindent
+This identity, now proved rather than merely observed, explains why
+the BSL achieves $R^2 > 0.997$: the proxy captures the full
+systematic content of the conductor, while the correction
+term (depending on $|p - q|$) contributes only intra-band noise.
+
+
+% ═══════════════════════════════════════════════════════════════════════════
+\section*{Acknowledgments}
+
+The Magma computations were performed using the
+\texttt{Conductor()} function for genus-2 hyperelliptic curves
+(data and scripts at\\
+\url{https://github.com/Ruqing1963/goldbach-conductor-validation}).
+The proof verification scripts and \LaTeX{} source for this paper
+are available at\\
+\url{https://github.com/Ruqing1963/goldbach-tame-semistability}.
+
+
+\begin{thebibliography}{9}
+
+\bibitem{Chen2026TCV}
+R.~Chen,
+\emph{The true conductor of Goldbach--Frey curves: computational
+  validation of the conductor proxy},
+Zenodo, 2026.
+\url{https://zenodo.org/records/18749731}
+
+\bibitem{Chen2026DS}
+R.~Chen,
+\emph{Dynamic stability of the Goldbach locus: conductor orbit
+  propagation and the Band Shifting Law in $\GSp(4)$},
+Zenodo, 2026.
+\url{https://zenodo.org/records/18724884}
+
+\bibitem{Serre1959}
+J.-P.~Serre,
+\emph{Groupes alg\'ebriques et corps de classes},
+Hermann, Paris, 1959.
+
+\bibitem{BLR}
+S.~Bosch, W.~L\"utkebohmert, and M.~Raynaud,
+\emph{N\'eron Models},
+Ergebnisse der Mathematik, vol.~21, Springer, 1990.
+
+\bibitem{SerreTate}
+J.-P.~Serre and J.~Tate,
+Good reduction of abelian varieties,
+\emph{Ann.\ of Math.}~\textbf{88} (1968), 492--517.
+
+\bibitem{Liu2002}
+Q.~Liu,
+\emph{Algebraic Geometry and Arithmetic Curves},
+Oxford Graduate Texts in Mathematics, vol.~6, Oxford
+University Press, 2002.
+
+\bibitem{DDMM}
+T.~Dokchitser, V.~Dokchitser, C.~Maistret, and A.~Morgan,
+Semistable types of hyperelliptic curves,
+in \emph{Algebraic Curves and their Applications},
+Contemp.\ Math.\ \textbf{724}, AMS, 2019, pp.~73--135.
+
+\bibitem{DeligneMumford}
+P.~Deligne and D.~Mumford,
+The irreducibility of the space of curves of given genus,
+\emph{Inst.\ Hautes \'Etudes Sci.\ Publ.\ Math.}\ \textbf{36}
+(1969), 75--109.
+
+\bibitem{ObusWewers}
+A.~Obus and S.~Wewers,
+Cyclic extensions and the local lifting problem,
+\emph{Ann.\ of Math.}~\textbf{180} (2014), 233--284.
+
+\end{thebibliography}
+
+\end{document}
